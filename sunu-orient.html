@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SUNU-ORIENT — Mon orientation après le bac</title>
+<style>
+:root{
+  --encre:#14512F;
+  --encre-clair:#4E7A62;
+  --papier:#FDFAF4;
+  --sable:#F3E8D8;
+  --sable-fonce:#E2D0B6;
+  --or:#E07A1F;
+  --or-clair:#FBE6CF;
+  --vert:#1E7A4C;
+  --vert-clair:#DCEFE2;
+  --brique:#B33A1C;
+  --brique-clair:#F9E1D9;
+  --r:10px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--sable);
+  color:var(--encre);
+  font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-text-size-adjust:100%;
+}
+.wrap{max-width:460px;margin:0 auto;background:var(--papier);min-height:100vh;
+  box-shadow:0 0 0 1px rgba(20,81,47,.10)}
+.pad{padding:22px 20px 28px}
+
+h1,h2,h3,.disp{font-family:Georgia,"Times New Roman",serif;font-weight:normal;letter-spacing:-.01em}
+h1{font-size:32px;line-height:1.15;margin:0 0 12px}
+h2{font-size:23px;line-height:1.2;margin:0 0 6px}
+h3{font-size:18px;margin:0 0 4px}
+p{margin:0 0 12px}
+small{font-size:13px;line-height:1.45;display:block;color:var(--encre-clair)}
+
+/* ---------- barre haute ---------- */
+.bar{background:var(--encre);color:var(--papier);padding:13px 20px;
+  display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20}
+.bar .logo{font-family:Georgia,serif;font-size:17px;letter-spacing:.02em}
+.bar .logo b{font-weight:normal;color:var(--or)}
+.bar .etat{margin-left:auto;font-size:12px;color:#A9C9B6}
+.retour{background:none;border:0;color:var(--papier);font-size:15px;padding:4px 0;cursor:pointer;
+  font-family:inherit}
+
+/* ---------- progression ---------- */
+.prog{display:flex;gap:4px;padding:14px 20px 0}
+.prog i{flex:1;height:3px;background:var(--sable-fonce);border-radius:2px}
+.prog i.on{background:var(--or)}
+.etape{font-size:12.5px;color:var(--encre-clair);padding:8px 20px 0}
+
+/* ---------- accueil ---------- */
+.hero{padding:34px 20px 26px;background:var(--papier);
+  background-image:linear-gradient(var(--sable) 1px,transparent 1px);
+  background-size:100% 30px;background-position:0 -1px}
+.hero h1{margin-bottom:14px}
+.hero .lead{font-size:16.5px;color:var(--encre-clair);margin-bottom:22px}
+.chiffres{display:flex;gap:10px;margin:22px 0 0;border-top:1px solid var(--sable-fonce);padding-top:16px}
+.chiffres div{flex:1}
+.chiffres .n{font-family:Georgia,serif;font-size:22px;color:var(--vert)}
+.chiffres small{font-size:11.5px}
+
+/* ---------- boutons ---------- */
+button{font-family:inherit}
+.btn{display:block;width:100%;padding:15px 18px;background:var(--encre);color:var(--papier);
+  border:0;border-radius:var(--r);font-size:16px;cursor:pointer;text-align:center;line-height:1.3}
+.btn:active{background:#0D3A22}
+.btn[disabled]{background:var(--sable-fonce);color:#8D9B8F;cursor:not-allowed}
+.btn.sec{background:transparent;color:var(--encre);border:1.5px solid var(--sable-fonce)}
+.btn.or{background:var(--or);color:#3A1C02}
+.btn.mini{padding:11px 14px;font-size:14.5px;width:auto;display:inline-block}
+.duo{display:flex;gap:10px;margin-top:16px}
+.duo .btn{flex:1}
+button:focus-visible,select:focus-visible,input:focus-visible,.chip:focus-visible{
+  outline:3px solid var(--or);outline-offset:2px}
+
+/* ---------- formulaire ---------- */
+label.q{display:block;font-size:15px;margin:22px 0 9px;font-weight:600}
+label.q span{font-weight:400;color:var(--encre-clair);font-size:13.5px}
+select,input[type=number],input[type=text]{
+  width:100%;padding:13px 12px;font-size:16px;font-family:inherit;color:var(--encre);
+  background:#fff;border:1.5px solid var(--sable-fonce);border-radius:var(--r)}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{padding:9px 13px;border:1.5px solid var(--sable-fonce);background:#fff;border-radius:999px;
+  font-size:14px;cursor:pointer;color:var(--encre)}
+.chip[aria-pressed=true]{background:var(--encre);color:var(--papier);border-color:var(--encre)}
+.chip[disabled]{opacity:.4;cursor:not-allowed}
+.aide{background:var(--or-clair);border-radius:var(--r);padding:12px 14px;margin:18px 0 0}
+.aide small{color:#7A3F05}
+
+/* ---------- resultats ---------- */
+.fiche{background:#fff;border:1px solid var(--sable-fonce);border-radius:var(--r);
+  padding:16px 16px 14px;margin:0 0 12px;border-left:5px solid var(--vert);cursor:pointer;
+  text-align:left;width:100%;display:block}
+.fiche.moyen{border-left-color:var(--or)}
+.fiche.faible{border-left-color:var(--brique)}
+.fiche .haut{display:flex;align-items:flex-start;gap:12px}
+.fiche .haut h3{flex:1}
+.score{font-family:Georgia,serif;font-size:26px;line-height:1;color:var(--vert)}
+.moyen .score{color:var(--or)}
+.faible .score{color:var(--brique)}
+.score em{font-size:11px;font-style:normal;display:block;color:var(--encre-clair);
+  font-family:inherit;margin-top:3px;letter-spacing:.02em}
+.dom{font-size:12.5px;color:var(--encre-clair);margin:2px 0 9px}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.tag{font-size:11.5px;padding:3px 8px;border-radius:5px;background:var(--sable);color:var(--encre-clair)}
+.tag.v{background:var(--vert-clair);color:#10553A}
+.tag.r{background:var(--brique-clair);color:#8A2D14}
+.pourquoi{font-size:13.5px;color:var(--encre-clair);margin-top:9px;
+  border-top:1px dashed var(--sable-fonce);padding-top:9px}
+
+/* ---------- detail ---------- */
+.bloc{margin:0 0 22px}
+.bloc h4{font-size:13px;margin:0 0 9px;color:var(--encre-clair);font-weight:600}
+.jauge{height:7px;background:var(--sable);border-radius:4px;overflow:hidden;margin:6px 0 3px}
+.jauge i{display:block;height:100%;background:var(--vert)}
+.crit{margin-bottom:13px}
+.crit .l{display:flex;justify-content:space-between;font-size:13.5px}
+.etab{border:1px solid var(--sable-fonce);border-radius:var(--r);padding:12px 13px;margin-bottom:9px;background:#fff}
+.etab .n{font-size:15px;margin-bottom:3px}
+.etab .m{font-size:12.5px;color:var(--encre-clair)}
+.liste{margin:0;padding-left:18px}
+.liste li{margin-bottom:5px;font-size:14.5px}
+
+/* ---------- passeport ---------- */
+.passeport{background:#fff;border:1px solid var(--encre);border-radius:var(--r);padding:18px;margin-bottom:16px}
+.passeport .ent{border-bottom:2px solid var(--encre);padding-bottom:10px;margin-bottom:14px}
+.ligne{display:flex;justify-content:space-between;gap:14px;padding:7px 0;
+  border-bottom:1px dotted var(--sable-fonce);font-size:14px}
+.ligne b{font-weight:600;text-align:right}
+
+/* ---------- ussd ---------- */
+.ecran-ussd{background:#0C2A1A;color:#C6EBCF;font-family:ui-monospace,"Courier New",monospace;
+  font-size:14px;line-height:1.7;padding:18px;border-radius:var(--r);white-space:pre-wrap;
+  min-height:230px}
+.ussd-in{display:flex;gap:8px;margin-top:12px}
+.ussd-in input{flex:1}
+
+.avert{font-size:12px;color:var(--encre-clair);background:var(--sable);padding:12px 14px;
+  border-radius:var(--r);margin-top:8px}
+.cache{display:none}
+@media print{
+  body{background:#fff}
+  .bar,.prog,.etape,.noprint{display:none!important}
+  .wrap{box-shadow:none;max-width:none}
+}
+@media (prefers-reduced-motion:no-preference){
+  .ecran{animation:ap .22s ease-out}
+  @keyframes ap{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+}
+</style>
+
+<div class="wrap">
+  <div class="bar">
+    <button class="retour cache" id="btnRetour" aria-label="Revenir à l'écran précédent">‹</button>
+    <span class="logo">SUNU<b>-</b>ORIENT</span>
+    <span class="etat" id="etat">Hors ligne · prêt</span>
+  </div>
+  <div id="app"></div>
+</div>
+
+<script>
+/* =========================================================================
+   SUNU-ORIENT — moteur d'orientation post-bac
+   Données de DÉMONSTRATION. À remplacer par la base officielle MESRI/Campusen.
+   ========================================================================= */
+
+/* ---------- 1. Référentiels ---------- */
+
+const SERIES = [
+  {id:"S1", nom:"S1 — Maths & Sciences physiques", fam:"sci"},
+  {id:"S2", nom:"S2 — Sciences expérimentales", fam:"sci"},
+  {id:"S3", nom:"S3 — Sciences et techniques", fam:"sci"},
+  {id:"S4", nom:"S4 — Maths & Techniques industrielles", fam:"tec"},
+  {id:"S5", nom:"S5 — Techniques industrielles", fam:"tec"},
+  {id:"F6", nom:"F6 — Chimie", fam:"tec"},
+  {id:"T1", nom:"T1 — Fabrication mécanique / Électrotechnique", fam:"tec"},
+  {id:"T2", nom:"T2 — Génie civil / Bâtiment", fam:"tec"},
+  {id:"STEG",nom:"STEG (ex-G) — Sciences & techniques économiques et de gestion", fam:"ges"},
+  {id:"L1", nom:"L1 — Lettres & Mathématiques", fam:"let"},
+  {id:"L2", nom:"L2 — Lettres & Langues", fam:"let"},
+  {id:"L1a",nom:"L1a / L'1 — Lettres & Arabe", fam:"let"},
+  {id:"LA", nom:"LA — Langues vivantes renforcées", fam:"let"}
+];
+
+const REGIONS = ["Dakar","Thiès","Saint-Louis","Diourbel","Kaolack","Ziguinchor","Louga",
+  "Fatick","Kaffrine","Kolda","Matam","Sédhiou","Tambacounda","Kédougou"];
+
+const INTERETS = [
+  {id:"sante",  l:"Soigner, la santé"},
+  {id:"chiffre",l:"Les chiffres, la gestion"},
+  {id:"info",   l:"Informatique, numérique"},
+  {id:"droit",  l:"Droit, justice"},
+  {id:"ensei",  l:"Enseigner, éduquer"},
+  {id:"agri",   l:"Agriculture, environnement"},
+  {id:"tech",   l:"Construire, réparer, technique"},
+  {id:"langue", l:"Langues, littérature"},
+  {id:"commerce",l:"Commerce, entreprendre"},
+  {id:"media",  l:"Communication, médias"},
+  {id:"tourisme",l:"Tourisme, hôtellerie"},
+  {id:"societe",l:"Société, histoire, politique"}
+];
+
+const MATIERES = [
+  {id:"maths",l:"Maths"},{id:"pc",l:"Physique-Chimie"},{id:"svt",l:"SVT"},
+  {id:"fr",l:"Français"},{id:"philo",l:"Philosophie"},{id:"hg",l:"Histoire-Géo"},
+  {id:"ang",l:"Anglais"},{id:"eco",l:"Économie"},{id:"compta",l:"Comptabilité"},
+  {id:"infoM",l:"Informatique"},{id:"atelier",l:"Atelier / Technique"}
+];
+
+/* ---------- 2. Établissements ---------- */
+/* type: pub = public, prive = privé agréé MESRI, dist = à distance
+   frais: ordre de grandeur annuel, INDICATIF */
+
+const E = {
+  "ucad-fst":   {n:"UCAD — Faculté des Sciences et Techniques", r:"Dakar", t:"pub", f:"Inscription ~25 000 F/an"},
+  "ucad-faseg": {n:"UCAD — Faculté des Sciences économiques et de Gestion", r:"Dakar", t:"pub", f:"Inscription ~25 000 F/an"},
+  "ucad-fsjp":  {n:"UCAD — Faculté des Sciences juridiques et politiques", r:"Dakar", t:"pub", f:"Inscription ~25 000 F/an"},
+  "ucad-flsh":  {n:"UCAD — Faculté des Lettres et Sciences humaines", r:"Dakar", t:"pub", f:"Inscription ~25 000 F/an"},
+  "ucad-fmpos": {n:"UCAD — Faculté de Médecine, Pharmacie et Odontologie", r:"Dakar", t:"pub", f:"Inscription ~25 000 F/an"},
+  "ucad-esp":   {n:"UCAD — École supérieure polytechnique", r:"Dakar", t:"pub", f:"Concours · frais publics"},
+  "ucad-cesti": {n:"UCAD — CESTI (journalisme)", r:"Dakar", t:"pub", f:"Concours · frais publics"},
+  "ucad-ebad":  {n:"UCAD — EBAD (bibliothèques, archives, documentation)", r:"Dakar", t:"pub", f:"Frais publics"},
+  "ucad-esea":  {n:"UCAD — ESEA (économie appliquée, développement)", r:"Dakar", t:"pub", f:"Frais publics"},
+  "ucad-fastef":{n:"UCAD — FASTEF (formation des enseignants)", r:"Dakar", t:"pub", f:"Concours · frais publics"},
+  "ucad-inseps":{n:"UCAD — INSEPS (sport et éducation physique)", r:"Dakar", t:"pub", f:"Concours · frais publics"},
+  "endss":      {n:"ENDSS — École nationale de développement sanitaire et social", r:"Dakar", t:"pub", f:"Concours · frais publics"},
+  "ugb-sat":    {n:"UGB — UFR Sciences appliquées et Technologie", r:"Saint-Louis", t:"pub", f:"Inscription ~25 000 F/an"},
+  "ugb-seg":    {n:"UGB — UFR Sciences économiques et de Gestion", r:"Saint-Louis", t:"pub", f:"Inscription ~25 000 F/an"},
+  "ugb-lsh":    {n:"UGB — UFR Lettres et Sciences humaines", r:"Saint-Louis", t:"pub", f:"Inscription ~25 000 F/an"},
+  "ugb-crac":   {n:"UGB — UFR Civilisations, Religions, Arts et Communication", r:"Saint-Louis", t:"pub", f:"Inscription ~25 000 F/an"},
+  "ugb-s2ata":  {n:"UGB — UFR Sciences agronomiques et Développement rural", r:"Saint-Louis", t:"pub", f:"Inscription ~25 000 F/an"},
+  "ugb-sante":  {n:"UGB — UFR Sciences de la Santé", r:"Saint-Louis", t:"pub", f:"Inscription ~25 000 F/an"},
+  "uidt-set":   {n:"Université Iba Der Thiam — UFR Sciences et Technologies", r:"Thiès", t:"pub", f:"Inscription ~25 000 F/an"},
+  "uidt-ses":   {n:"Université Iba Der Thiam — UFR Sciences économiques et sociales", r:"Thiès", t:"pub", f:"Inscription ~25 000 F/an"},
+  "uidt-sante": {n:"Université Iba Der Thiam — UFR Sciences de la Santé", r:"Thiès", t:"pub", f:"Inscription ~25 000 F/an"},
+  "ept":        {n:"École polytechnique de Thiès", r:"Thiès", t:"pub", f:"Concours · frais publics"},
+  "ensa":       {n:"ENSA — École nationale supérieure d'Agriculture", r:"Thiès", t:"pub", f:"Concours · frais publics"},
+  "uadb-satic": {n:"Université Alioune Diop — UFR SATIC (sciences et technologies)", r:"Diourbel", t:"pub", f:"Inscription ~25 000 F/an"},
+  "uadb-sdd":   {n:"Université Alioune Diop — UFR Santé et Développement durable", r:"Diourbel", t:"pub", f:"Inscription ~25 000 F/an"},
+  "uadb-eco":   {n:"Université Alioune Diop — UFR Économie, Management, Ingénierie juridique", r:"Diourbel", t:"pub", f:"Inscription ~25 000 F/an"},
+  "uasz-st":    {n:"Université Assane Seck — UFR Sciences et Technologies", r:"Ziguinchor", t:"pub", f:"Inscription ~25 000 F/an"},
+  "uasz-ses":   {n:"Université Assane Seck — UFR Sciences économiques et sociales", r:"Ziguinchor", t:"pub", f:"Inscription ~25 000 F/an"},
+  "uasz-lsh":   {n:"Université Assane Seck — UFR Lettres, Arts et Sciences humaines", r:"Ziguinchor", t:"pub", f:"Inscription ~25 000 F/an"},
+  "ussein":     {n:"USSEIN — Université du Sine-Saloum El Hadji Ibrahima Niasse", r:"Kaolack", t:"pub", f:"Inscription ~25 000 F/an"},
+  "unchk":      {n:"UN-CHK — Université numérique Cheikh Hamidou Kane (ex-UVS)", r:"Tout le Sénégal (ENO)", t:"dist", f:"Inscription ~25 000 F/an"},
+  "isep-th":    {n:"ISEP de Thiès (formations professionnelles courtes)", r:"Thiès", t:"pub", f:"Frais publics"},
+  "isep-di":    {n:"ISEP de Diamniadio", r:"Dakar", t:"pub", f:"Frais publics"},
+  "isep-rt":    {n:"ISEP de Richard-Toll", r:"Saint-Louis", t:"pub", f:"Frais publics"},
+  "isep-mt":    {n:"ISEP de Matam", r:"Matam", t:"pub", f:"Frais publics"},
+  "isep-bg":    {n:"ISEP de Bignona", r:"Ziguinchor", t:"pub", f:"Frais publics"},
+  "isep-sd":    {n:"ISEP de Sédhiou", r:"Sédhiou", t:"pub", f:"Frais publics"},
+  "esmt":       {n:"ESMT — École supérieure multinationale des Télécommunications", r:"Dakar", t:"prive", f:"~1 000 000 F/an (indicatif)"},
+  "ism":        {n:"ISM — Institut supérieur de Management", r:"Dakar", t:"prive", f:"~900 000 – 1 500 000 F/an (indicatif)"},
+  "bem":        {n:"BEM Dakar (ex-Sup de Co)", r:"Dakar", t:"prive", f:"~1 200 000 – 2 000 000 F/an (indicatif)"},
+  "iam":        {n:"IAM — Institut africain de Management", r:"Dakar", t:"prive", f:"~800 000 – 1 400 000 F/an (indicatif)"},
+  "estm":       {n:"ESTM — École supérieure des Technologies et du Management", r:"Dakar", t:"prive", f:"~700 000 – 1 200 000 F/an (indicatif)"},
+  "iseg":       {n:"ISEG — Institut supérieur d'Entrepreneurship et de Gestion", r:"Dakar", t:"prive", f:"~700 000 – 1 200 000 F/an (indicatif)"},
+  "udb":        {n:"Université Dakar Bourguiba", r:"Dakar", t:"prive", f:"~700 000 – 1 300 000 F/an (indicatif)"}
+};
+
+/* ---------- 3. Catalogue des filières ---------- */
+/* p = séries principales, s = séries acceptables
+   ex = moyenne au bac indicative pour être compétitif */
+
+function f(id,nom,dom,p,s,inter,mat,ex,duree,deb,etabs){
+  return {id,nom,dom,p,s,inter,mat,ex,duree,deb,etabs};
+}
+
+const FILIERES = [
+
+/* --- Santé --- */
+f("medecine","Médecine","Santé",["S2"],["S1","S3"],["sante"],["svt","pc"],14,"7 ans et +",
+ ["Médecin généraliste","Médecin spécialiste","Recherche médicale","Santé publique"],
+ ["ucad-fmpos","ugb-sante","uidt-sante","uadb-sdd"]),
+f("pharmacie","Pharmacie","Santé",["S2"],["S1","F6"],["sante"],["svt","pc"],14,"6 ans",
+ ["Pharmacien d'officine","Industrie pharmaceutique","Biologie médicale"],
+ ["ucad-fmpos"]),
+f("odonto","Chirurgie dentaire","Santé",["S2"],["S1"],["sante"],["svt","pc"],14,"6 ans",
+ ["Chirurgien-dentiste","Cabinet privé","Hôpital public"],["ucad-fmpos"]),
+f("infirmier","Soins infirmiers / Sage-femme","Santé",["S2"],["S1","S3","F6"],["sante"],["svt"],11,"3 ans",
+ ["Infirmier d'État","Sage-femme d'État","Poste de santé","ONG santé"],
+ ["endss","uadb-sdd","ussein","uidt-sante"]),
+f("biomed","Biologie médicale / Analyses","Santé",["S2"],["S1","F6"],["sante","agri"],["svt","pc"],11.5,"3 à 5 ans",
+ ["Technicien de laboratoire","Laboratoire d'analyses","Recherche"],
+ ["ucad-fst","uadb-sdd","uasz-st"]),
+f("nutrition","Nutrition et sécurité alimentaire","Santé",["S2"],["S1","S3","F6"],["sante","agri"],["svt"],11,"3 ans",
+ ["Nutritionniste","Programmes alimentaires","Agro-alimentaire"],["ussein","uadb-sdd"]),
+
+/* --- Sciences et ingénierie --- */
+f("mpi","Mathématiques, Physique, Informatique (MPI)","Sciences",["S1"],["S2","S4"],["info","tech"],["maths","pc"],12,"3 ans (Licence)",
+ ["Ingénierie","Enseignement supérieur","Recherche","Data / modélisation"],
+ ["ucad-fst","ugb-sat","uidt-set","uadb-satic","uasz-st"]),
+f("info","Informatique / Génie logiciel","Sciences",["S1","S2","S4"],["S3","S5","STEG","T1","T2","F6"],["info"],["maths","infoM"],11.5,"3 à 5 ans",
+ ["Développeur","Administrateur réseaux","Cybersécurité","Data analyst"],
+ ["ucad-fst","ucad-esp","ugb-sat","uidt-set","unchk","esmt","isep-th","isep-di","estm","ism"]),
+f("telecom","Télécommunications et réseaux","Sciences",["S1","S2","S4"],["S5","T1"],["info","tech"],["maths","pc"],12,"3 à 5 ans",
+ ["Ingénieur réseaux","Opérateur télécom","Radio et transmission"],
+ ["ucad-esp","esmt","ept","uidt-set"]),
+f("genie-civil","Génie civil / Bâtiment et travaux publics","Sciences",["S1","S4","T2"],["S2","S3","S5","T1"],["tech"],["maths","pc","atelier"],12,"3 à 5 ans",
+ ["Conducteur de travaux","Bureau d'études","BTP","Génie routier"],
+ ["ucad-esp","ept","uidt-set","isep-th"]),
+f("elec","Génie électrique / Électrotechnique","Sciences",["S1","S4","S5","T1"],["S2","S3"],["tech","info"],["pc","atelier"],11.5,"3 à 5 ans",
+ ["Électrotechnicien","Énergie et réseaux","Maintenance industrielle"],
+ ["ucad-esp","ept","isep-th","isep-di","uidt-set"]),
+f("meca","Génie mécanique / Maintenance industrielle","Sciences",["S1","S4","S5","T1"],["S2","S3","T2"],["tech"],["pc","atelier"],11,"2 à 5 ans",
+ ["Maintenance","Industrie","Automobile","Froid et climatisation"],
+ ["ept","isep-th","isep-di","ucad-esp"]),
+f("energies","Énergies renouvelables","Sciences",["S1","S2","S4","S5","T1"],["S3","T2","F6"],["tech","agri"],["pc","maths"],11.5,"3 ans",
+ ["Solaire photovoltaïque","Efficacité énergétique","Électrification rurale"],
+ ["ept","uidt-set","isep-rt","uasz-st","ugb-sat"]),
+f("chimie","Chimie / Sciences des matériaux","Sciences",["S2","F6"],["S1","S3","S5","T1"],["tech","agri"],["pc","svt"],11.5,"3 ans",
+ ["Contrôle qualité","Industrie chimique","Environnement","Laboratoire"],
+ ["ucad-fst","uasz-st","uidt-set"]),
+f("geologie","Géologie / Mines et pétrole","Sciences",["S1","S2"],["S3","S4"],["tech","agri"],["svt","pc"],12,"3 à 5 ans",
+ ["Géologue","Secteur minier","Hydrocarbures","Eau et hydrogéologie"],
+ ["ucad-fst","uidt-set"]),
+f("topo","Topographie, Cartographie et Géomètre","Sciences",["T2","S4","S1"],["S2","S3","S5","T1"],["tech"],["maths","atelier"],11,"2 à 3 ans",
+ ["Géomètre-topographe","Cadastre","Bureaux d'études BTP","Cartographie et SIG"],
+ ["ept","isep-th","ucad-esp","uidt-set"]),
+f("stat","Statistique et Data science","Sciences",["S1","S2"],["STEG","S4"],["chiffre","info"],["maths","eco"],12.5,"3 à 5 ans",
+ ["Statisticien","Analyste de données","ANSD, banques, assurances"],
+ ["ucad-esea","ugb-sat","ucad-fst"]),
+
+/* --- Agriculture et environnement --- */
+f("agro","Agronomie / Sciences agronomiques","Agriculture",["S2","S3"],["S1","F6"],["agri"],["svt","pc"],12,"3 à 5 ans",
+ ["Ingénieur agronome","Conseil agricole","Agrobusiness","Projets ruraux"],
+ ["ensa","ugb-s2ata","ussein","uasz-st"]),
+f("agroali","Agro-alimentaire et transformation","Agriculture",["S2","S3","F6"],["S1","STEG","S5","T1"],["agri","commerce"],["svt","pc"],11,"2 à 3 ans",
+ ["Transformation des produits locaux","Qualité et normes","Entrepreneuriat agro"],
+ ["ussein","ugb-s2ata","isep-rt","isep-bg"]),
+f("elevage","Élevage et productions animales","Agriculture",["S2","S3"],["S1"],["agri"],["svt"],11,"3 ans",
+ ["Technicien d'élevage","Santé animale","Filières lait et viande"],
+ ["ussein","ugb-s2ata","ensa"]),
+f("peche","Pêche et aquaculture","Agriculture",["S2","S3"],["S1","F6"],["agri"],["svt"],11,"2 à 3 ans",
+ ["Aquaculture","Gestion des ressources halieutiques","Transformation"],
+ ["uasz-st","ussein","isep-bg"]),
+f("enviro","Environnement et développement durable","Agriculture",["S2","S3"],["S1","L1","STEG","T2","S5","F6"],["agri","societe"],["svt","hg"],11,"3 ans",
+ ["Gestion des déchets","Changement climatique","ONG environnement","Collectivités"],
+ ["uasz-st","ugb-s2ata","uadb-sdd","ussein","unchk"]),
+
+/* --- Économie, gestion, commerce --- */
+f("eco","Sciences économiques","Économie & gestion",["STEG","S1","S2"],["L1","S3","L2"],["chiffre","societe"],["eco","maths"],11,"3 ans",
+ ["Analyste économique","Banque","Administration","Recherche"],
+ ["ucad-faseg","ugb-seg","uidt-ses","uasz-ses","uadb-eco","unchk"]),
+f("gestion","Gestion des entreprises / Management","Économie & gestion",["STEG"],["S1","S2","S3","L1","L2"],["chiffre","commerce"],["compta","eco"],10.5,"3 ans",
+ ["Gestionnaire","Chef d'entreprise","Ressources humaines","PME"],
+ ["ucad-faseg","ugb-seg","uidt-ses","uadb-eco","unchk","ism","iam","iseg","estm"]),
+f("compta","Comptabilité, Contrôle, Audit","Économie & gestion",["STEG"],["S1","S2","L1"],["chiffre"],["compta","maths"],11,"3 à 5 ans",
+ ["Comptable","Auditeur","Cabinet d'expertise","Contrôleur de gestion"],
+ ["ucad-faseg","ugb-seg","uadb-eco","ism","bem","iseg","unchk"]),
+f("banque","Banque, Finance et Assurance","Économie & gestion",["STEG","S1"],["S2","L1"],["chiffre","commerce"],["compta","maths","eco"],11.5,"3 ans",
+ ["Chargé de clientèle","Analyste crédit","Assurance","Microfinance"],
+ ["ucad-faseg","ugb-seg","ism","bem","iam","unchk"]),
+f("marketing","Marketing et Commerce international","Économie & gestion",["STEG"],["L2","LA","S2","L1"],["commerce","media"],["eco","ang"],10.5,"3 ans",
+ ["Commercial","Chargé de marketing","Import-export","Communication produit"],
+ ["ism","bem","iam","iseg","ugb-seg","uadb-eco","unchk","estm"]),
+f("logistique","Transport et Logistique","Économie & gestion",["STEG","S1","S2"],["S4","S5","T1","T2","L1"],["commerce","chiffre"],["eco","maths"],10.5,"2 à 3 ans",
+ ["Gestion de stocks","Transit et douane","Chaîne d'approvisionnement","Port"],
+ ["ism","estm","iseg","isep-di","unchk"]),
+f("entrepreneuriat","Entrepreneuriat et création d'entreprise","Économie & gestion",["STEG"],["S1","S2","S3","L1","L2","T1","T2"],["commerce"],["eco","compta"],10,"2 à 3 ans",
+ ["Créateur d'entreprise","Accompagnement de PME","Coopératives","DER/FJ"],
+ ["iseg","iam","ism","unchk","uadb-eco"]),
+f("gestion-pub","Administration et gestion publique","Économie & gestion",["STEG","L1"],["S1","S2","L2","LA"],["societe","chiffre"],["eco","hg"],11,"3 ans",
+ ["Administration territoriale","Collectivités locales","Concours de la fonction publique"],
+ ["ucad-esea","uadb-eco","uasz-ses","unchk"]),
+
+/* --- Droit et société --- */
+f("droit","Droit","Droit & société",["L1","L2","STEG"],["S1","S2","LA","L1a"],["droit","societe"],["philo","hg","fr"],11,"3 ans",
+ ["Avocat","Magistrat","Juriste d'entreprise","Notaire","Administration"],
+ ["ucad-fsjp","ugb-seg","uasz-ses","uadb-eco","unchk","udb","ism"]),
+f("scipo","Science politique et Relations internationales","Droit & société",["L1","L2"],["STEG","LA","L1a","S2"],["societe","droit"],["hg","philo"],11.5,"3 ans",
+ ["Diplomatie","Organisations internationales","Analyse politique","ONG"],
+ ["ucad-fsjp","ugb-lsh","unchk"]),
+f("socio","Sociologie / Anthropologie","Droit & société",["L1","L2","L1a"],["STEG","S2","LA"],["societe"],["philo","hg"],10,"3 ans",
+ ["Chargé d'études sociales","ONG et développement","Recherche","Travail social"],
+ ["ucad-flsh","ugb-lsh","uasz-lsh","uadb-sdd"]),
+f("psycho","Psychologie","Droit & société",["L1","L2"],["S2","L1a","STEG"],["sante","societe","ensei"],["philo","svt"],11,"3 ans",
+ ["Psychologue scolaire","Psychologie du travail","Accompagnement social"],
+ ["ucad-flsh","ugb-lsh"]),
+f("geo","Géographie et Aménagement du territoire","Droit & société",["L1","L2"],["S2","S3","STEG"],["societe","agri"],["hg"],10,"3 ans",
+ ["Aménagement","Cartographie et SIG","Collectivités locales","Environnement"],
+ ["ucad-flsh","ugb-lsh","uasz-lsh"]),
+f("histoire","Histoire et Civilisations","Droit & société",["L1","L2","L1a"],["LA","STEG"],["societe","langue"],["hg","fr"],10,"3 ans",
+ ["Enseignement","Patrimoine et musées","Recherche","Archives"],
+ ["ucad-flsh","ugb-crac","uasz-lsh"]),
+
+/* --- Lettres, langues, médias --- */
+f("lettres","Lettres modernes / Français","Lettres & langues",["L1","L2","L1a"],["LA","STEG","S2"],["langue","ensei"],["fr","philo"],10,"3 ans",
+ ["Enseignement","Édition","Rédaction","Communication"],
+ ["ucad-flsh","ugb-lsh","uasz-lsh","unchk"]),
+f("anglais","Anglais / Études anglophones","Lettres & langues",["L2","LA"],["L1","L1a","STEG"],["langue"],["ang","fr"],10.5,"3 ans",
+ ["Enseignement","Traduction","Tourisme","Organisations internationales"],
+ ["ucad-flsh","ugb-lsh","uasz-lsh","uadb-eco"]),
+f("arabe","Études arabes et islamiques","Lettres & langues",["L1a","LA"],["L1","L2"],["langue","societe"],["fr","hg"],10,"3 ans",
+ ["Enseignement","Traduction","Coopération avec le monde arabe","Recherche"],
+ ["ucad-flsh","ugb-crac"]),
+f("journalisme","Journalisme et Médias","Lettres & langues",["L1","L2"],["LA","STEG","S2","L1a"],["media","societe"],["fr","hg"],12,"3 ans",
+ ["Journaliste","Radio et télévision","Presse en ligne","Communication"],
+ ["ucad-cesti","ugb-crac","ism","iam"]),
+f("com","Communication et Marketing digital","Lettres & langues",["L1","L2","STEG"],["LA","S2","S1"],["media","commerce","info"],["fr","ang"],10.5,"3 ans",
+ ["Community manager","Chargé de communication","Agence","Événementiel"],
+ ["ugb-crac","ism","iam","iseg","estm","unchk"]),
+f("doc","Bibliothèques, Archives et Documentation","Lettres & langues",["L1","L2","STEG"],["S2","LA","L1a"],["societe","info"],["fr","hg"],10,"3 ans",
+ ["Documentaliste","Archiviste","Gestion de l'information","Bibliothèque"],
+ ["ucad-ebad","unchk"]),
+
+/* --- Éducation et sport --- */
+f("enseignement","Formation des enseignants (FASTEF)","Éducation",["L1","L2","S1","S2","STEG"],["S3","LA","L1a"],["ensei"],["fr","maths","hg"],11,"2 à 4 ans",
+ ["Professeur de collège et lycée","Inspection","Encadrement pédagogique"],
+ ["ucad-fastef","uadb-satic"]),
+f("eps","Sport et Éducation physique (INSEPS)","Éducation",["S2","L2","STEG"],["S1","L1","S3"],["ensei","sante"],["svt"],10.5,"3 ans",
+ ["Professeur d'EPS","Préparateur physique","Gestion du sport"],
+ ["ucad-inseps"]),
+
+/* --- Tourisme et services --- */
+f("tourisme","Tourisme et Hôtellerie","Tourisme & services",["STEG","L2","LA"],["L1","S2"],["tourisme","commerce","langue"],["ang","eco"],10,"2 à 3 ans",
+ ["Hôtellerie","Agence de voyage","Guide touristique","Événementiel"],
+ ["ussein","iam","ism","uasz-ses","isep-bg"]),
+f("secretariat","Assistanat de direction et Bureautique","Tourisme & services",["STEG","L2"],["L1","LA","S2"],["chiffre","commerce"],["compta","fr"],10,"2 ans",
+ ["Assistant de direction","Secrétariat","Administration d'entreprise"],
+ ["isep-th","isep-di","estm","iseg","unchk"])
+];
+
+/* ---------- 4. Moteur de matching ---------- */
+
+const PROFIL = {serie:"",moyenne:null,mention:"",region:"",interets:[],matieres:[],
+  budget:"public",mobilite:"partout",distance:"non"};
+
+function niveauDepuisMoyenne(m){
+  if(m>=16) return "Très bien";
+  if(m>=14) return "Bien";
+  if(m>=12) return "Assez bien";
+  return "Passable";
+}
+
+function evaluer(fil,p){
+  // 1. Série : condition d'entrée
+  let poidsSerie = 0;
+  if(fil.p.includes(p.serie)) poidsSerie = 1;
+  else if(fil.s.includes(p.serie)) poidsSerie = 0.62;
+  else return null; // filière non ouverte à cette série
+
+  const detail = {};
+  detail.serie = Math.round(38*poidsSerie);
+
+  // 2. Niveau académique face à l'exigence de la filière
+  const ecart = p.moyenne - fil.ex;
+  let n;
+  if(ecart >= 3.5) n = 25 - Math.min(4,(ecart-3.5)*1.6);
+  else if(ecart >= 3) n = 25;
+  else if(ecart >= 0) n = 17.5 + ecart*2.5;
+  else if(ecart >= -1) n = 12 + (ecart+1)*5.5;
+  else if(ecart >= -2.5) n = 4 + (ecart+2.5)*5.3;
+  else n = 1;
+  detail.niveau = Math.round(Math.max(1,Math.min(25,n)));
+
+  // 3. Centres d'intérêt
+  const com = fil.inter.filter(i=>p.interets.includes(i)).length;
+  detail.interet = Math.round(25*(0.62*(com/fil.inter.length) + 0.38*(com/Math.max(1,p.interets.length))));
+
+  // 4. Matières fortes
+  const cm = fil.mat.filter(m=>p.matieres.includes(m)).length;
+  detail.matiere = p.matieres.length
+    ? Math.round(10*(0.6*(cm/fil.mat.length) + 0.4*(cm/p.matieres.length))) : 4;
+
+  // 5. Contexte : région, budget, enseignement à distance
+  const etabs = fil.etabs.map(k=>({k,...E[k]}));
+  const dansRegion = etabs.some(e=>e.r===p.region);
+  const aDistance  = etabs.some(e=>e.t==="dist");
+  const publics    = etabs.filter(e=>e.t!=="prive");
+  let ctx = 0;
+  if(dansRegion) ctx += 5;
+  if(aDistance)  ctx += 3;
+  if(p.budget==="public" && publics.length===0) ctx -= 16;
+  if(p.mobilite==="region" && !dansRegion && !aDistance) ctx -= 17;
+  if(p.distance==="oui" && aDistance) ctx += 4;
+  detail.contexte = ctx;
+
+  let total = detail.serie+detail.niveau+detail.interet+detail.matiere+detail.contexte;
+  total = Math.max(0,Math.min(98,Math.round(total)));
+
+  // Raisons lisibles
+  const raisons = [];
+  if(poidsSerie===1) raisons.push("Ta série "+p.serie+" est la voie principale vers cette filière.");
+  else raisons.push("Ta série "+p.serie+" donne accès à cette filière, mais ce n'est pas la voie la plus directe.");
+  if(ecart>=1) raisons.push("Ta moyenne de "+p.moyenne.toFixed(2)+" est confortable pour cette filière.");
+  else if(ecart>=-0.5) raisons.push("Ta moyenne te place juste au niveau attendu — la sélection sera serrée.");
+  else raisons.push("Cette filière demande souvent une moyenne autour de "+fil.ex+" : l'accès sera difficile.");
+  if(com>0) raisons.push("Elle rejoint ce qui t'intéresse : "+
+    fil.inter.filter(i=>p.interets.includes(i)).map(i=>INTERETS.find(x=>x.id===i).l.toLowerCase()).join(", ")+".");
+  if(dansRegion) raisons.push("Elle se prépare dans ta région ("+p.region+").");
+  else if(aDistance) raisons.push("Accessible à distance depuis ta région via l'UN-CHK.");
+  else raisons.push("Elle demande de quitter ta région.");
+
+  const alertes = [];
+  if(p.budget==="public" && publics.length===0)
+    alertes.push("Uniquement en établissement privé payant");
+  if(p.mobilite==="region" && !dansRegion && !aDistance)
+    alertes.push("Aucun établissement dans ta région");
+  if(ecart < -1.5) alertes.push("Sélection très difficile avec ta moyenne");
+
+  return {fil,total,detail,raisons,alertes,etabs,dansRegion,aDistance};
+}
+
+function classer(p){
+  return FILIERES.map(f=>evaluer(f,p)).filter(Boolean)
+    .sort((a,b)=> (b.total-a.total) || (b.fil.ex-a.fil.ex) || a.fil.nom.localeCompare(b.fil.nom,"fr"));
+}
+
+/* ---------- 5. Rendu ---------- */
+
+const app = document.getElementById("app");
+const btnRetour = document.getElementById("btnRetour");
+let ecran = "accueil", resultats = [], selection = null, historique = [];
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function aller(e,push=true){ if(push && ecran!==e) historique.push(ecran); ecran=e; rendu(); window.scrollTo(0,0); }
+btnRetour.onclick = ()=>{ ecran = historique.pop() || "accueil"; rendu(); window.scrollTo(0,0); };
+
+function barreProgression(n){
+  let h='<div class="prog">';
+  for(let i=1;i<=4;i++) h+='<i class="'+(i<=n?"on":"")+'"></i>';
+  return h+'</div><div class="etape">Étape '+n+' sur 4</div>';
+}
+
+function rendu(){
+  btnRetour.classList.toggle("cache", ecran==="accueil");
+  document.getElementById("etat").textContent =
+    navigator.onLine ? "Connecté" : "Hors ligne · prêt";
+  app.innerHTML = '<div class="ecran">'+ ({
+    accueil:vAccueil, bac:vBac, matieres:vMatieres, interets:vInterets,
+    situation:vSituation, resultats:vResultats, detail:vDetail,
+    passeport:vPasseport, ussd:vUssd
+  })[ecran]() +'</div>';
+  brancher();
+}
+
+/* --- Accueil --- */
+function vAccueil(){
+  return `
+  <div class="hero">
+    <h1>Tu as ton bac.<br>Où vas-tu maintenant ?</h1>
+    <p class="lead">Réponds à quelques questions sur ta série, tes notes et ce que tu aimes.
+    SUNU-ORIENT te propose les filières qui te correspondent, dans le public comme dans le privé agréé,
+    partout au Sénégal.</p>
+    <button class="btn or" data-go="bac">Trouver ma filière</button>
+    <div class="duo">
+      <button class="btn sec" data-go="ussd">Sans internet (*246#)</button>
+      <button class="btn sec" id="demo">Voir un exemple</button>
+    </div>
+    <div class="chiffres">
+      <div><div class="n">${FILIERES.length}</div><small>filières analysées</small></div>
+      <div><div class="n">${Object.keys(E).length}</div><small>établissements</small></div>
+      <div><div class="n">14</div><small>régions couvertes</small></div>
+    </div>
+  </div>
+  <div class="pad" style="padding-top:0">
+    <div class="avert">Version de démonstration. Le catalogue de filières, les capacités d'accueil
+    et les frais indiqués doivent être remplacés par les données officielles du MESRI et de Campusen
+    avant tout usage réel.</div>
+  </div>`;
+}
+
+/* --- Étape 1 : le bac --- */
+function vBac(){
+  return barreProgression(1)+`<div class="pad">
+    <h2>Ton baccalauréat</h2>
+    <small>Ces deux informations déterminent les filières qui te sont ouvertes.</small>
+
+    <label class="q" for="serie">Ta série</label>
+    <select id="serie">
+      <option value="">Choisis ta série</option>
+      ${SERIES.map(s=>`<option value="${s.id}" ${PROFIL.serie===s.id?"selected":""}>${esc(s.nom)}</option>`).join("")}
+    </select>
+
+    <label class="q" for="moy">Ta moyenne au bac <span>sur 20</span></label>
+    <input id="moy" type="number" inputmode="decimal" min="8" max="20" step="0.01"
+      placeholder="Par exemple 12.45" value="${PROFIL.moyenne??""}">
+    <small id="mention" style="margin-top:7px"></small>
+
+    <div class="aide"><small>Tu n'as pas encore la moyenne exacte ? Mets une estimation.
+    Tu pourras recommencer plus tard, rien n'est enregistré.</small></div>
+
+    <div class="duo"><button class="btn" id="suite" disabled>Continuer</button></div>
+  </div>`;
+}
+
+/* --- Étape 2 : matières --- */
+function vMatieres(){
+  return barreProgression(2)+`<div class="pad">
+    <h2>Tes matières fortes</h2>
+    <small>Choisis jusqu'à 3 matières où tu réussis le mieux.</small>
+    <div class="chips" style="margin-top:18px" id="chipsM">
+      ${MATIERES.map(m=>`<button class="chip" data-m="${m.id}"
+        aria-pressed="${PROFIL.matieres.includes(m.id)}">${esc(m.l)}</button>`).join("")}
+    </div>
+    <div class="duo"><button class="btn" id="suite">Continuer</button></div>
+  </div>`;
+}
+
+/* --- Étape 3 : intérêts --- */
+function vInterets(){
+  return barreProgression(3)+`<div class="pad">
+    <h2>Ce qui t'intéresse</h2>
+    <small>Choisis 2 à 4 domaines. Pense à ce que tu aimes faire, pas seulement à tes notes.</small>
+    <div class="chips" style="margin-top:18px" id="chipsI">
+      ${INTERETS.map(i=>`<button class="chip" data-i="${i.id}"
+        aria-pressed="${PROFIL.interets.includes(i.id)}">${esc(i.l)}</button>`).join("")}
+    </div>
+    <div class="duo"><button class="btn" id="suite" disabled>Continuer</button></div>
+  </div>`;
+}
+
+/* --- Étape 4 : situation --- */
+function vSituation(){
+  return barreProgression(4)+`<div class="pad">
+    <h2>Ta situation</h2>
+    <small>Pour ne te proposer que des formations réellement accessibles pour toi.</small>
+
+    <label class="q" for="region">Ta région</label>
+    <select id="region">
+      <option value="">Choisis ta région</option>
+      ${REGIONS.map(r=>`<option ${PROFIL.region===r?"selected":""}>${r}</option>`).join("")}
+    </select>
+
+    <label class="q">Peux-tu payer une école privée ?</label>
+    <div class="chips">
+      <button class="chip" data-b="public" aria-pressed="${PROFIL.budget==="public"}">Public uniquement</button>
+      <button class="chip" data-b="mixte" aria-pressed="${PROFIL.budget==="mixte"}">Privé possible</button>
+    </div>
+
+    <label class="q">Peux-tu étudier loin de chez toi ?</label>
+    <div class="chips">
+      <button class="chip" data-mob="partout" aria-pressed="${PROFIL.mobilite==="partout"}">Partout au Sénégal</button>
+      <button class="chip" data-mob="region" aria-pressed="${PROFIL.mobilite==="region"}">Rester dans ma région</button>
+    </div>
+
+    <label class="q">Les cours à distance t'intéressent ?</label>
+    <div class="chips">
+      <button class="chip" data-d="oui" aria-pressed="${PROFIL.distance==="oui"}">Oui</button>
+      <button class="chip" data-d="non" aria-pressed="${PROFIL.distance==="non"}">Je préfère en présentiel</button>
+    </div>
+
+    <div class="duo"><button class="btn or" id="suite" disabled>Voir mes filières</button></div>
+  </div>`;
+}
+
+/* --- Résultats --- */
+function classe(t){ return t>=70?"":(t>=50?"moyen":"faible"); }
+function libelle(t){ return t>=70?"Très adapté":(t>=50?"Possible":"Difficile"); }
+
+function vResultats(){
+  const top = resultats.slice(0,12);
+  const bons = resultats.filter(r=>r.total>=70).length;
+  return `<div class="pad">
+    <h2>Tes filières recommandées</h2>
+    <small>Bac ${esc(PROFIL.serie)} · moyenne ${PROFIL.moyenne.toFixed(2)} · ${esc(PROFIL.region)}
+    — ${resultats.length} filières ouvertes à ta série, dont ${bons} très adaptées à ton profil.</small>
+
+    <div style="margin-top:20px">
+    ${top.map(r=>`
+      <button class="fiche ${classe(r.total)}" data-fil="${r.fil.id}">
+        <div class="haut">
+          <h3>${esc(r.fil.nom)}</h3>
+          <div class="score">${r.total}<em>${libelle(r.total)}</em></div>
+        </div>
+        <div class="dom">${esc(r.fil.dom)} · ${esc(r.fil.duree)}</div>
+        <div class="tags">
+          ${r.dansRegion?'<span class="tag v">Dans ta région</span>':""}
+          ${r.aDistance?'<span class="tag v">À distance possible</span>':""}
+          ${r.etabs.filter(e=>e.t!=="prive").length?'<span class="tag">Public</span>':""}
+          ${r.etabs.filter(e=>e.t==="prive").length?'<span class="tag">Privé agréé</span>':""}
+          ${r.alertes.map(a=>`<span class="tag r">${esc(a)}</span>`).join("")}
+        </div>
+        <div class="pourquoi">${esc(r.raisons[0])} ${esc(r.raisons[1])}</div>
+      </button>`).join("")}
+    </div>
+
+    <div class="duo noprint">
+      <button class="btn sec" data-go="bac">Modifier mon profil</button>
+      <button class="btn or" data-go="passeport">Mon passeport</button>
+    </div>
+    <div class="avert">Le score mesure la compatibilité entre ton profil et la filière.
+    Il ne garantit pas une place : l'affectation dépend des capacités d'accueil fixées par le MESRI.</div>
+  </div>`;
+}
+
+/* --- Détail d'une filière --- */
+function vDetail(){
+  const r = selection;
+  const crits = [
+    ["Compatibilité avec ta série", r.detail.serie, 40],
+    ["Niveau scolaire attendu", r.detail.niveau, 25],
+    ["Lien avec tes centres d'intérêt", r.detail.interet, 25],
+    ["Lien avec tes matières fortes", r.detail.matiere, 10]
+  ];
+  return `<div class="pad">
+    <div class="dom">${esc(r.fil.dom)}</div>
+    <h2>${esc(r.fil.nom)}</h2>
+    <small>${esc(r.fil.duree)} · moyenne indicative pour être compétitif : ${r.fil.ex}/20</small>
+
+    <div class="bloc" style="margin-top:22px">
+      <h4>Pourquoi ce score de ${r.total} sur 100</h4>
+      ${crits.map(([l,v,m])=>`
+        <div class="crit">
+          <div class="l"><span>${esc(l)}</span><b>${v}/${m}</b></div>
+          <div class="jauge"><i style="width:${Math.round(100*v/m)}%"></i></div>
+        </div>`).join("")}
+      ${r.detail.contexte!==0?`<div class="crit"><div class="l">
+        <span>Ta région, ton budget, tes contraintes</span>
+        <b>${r.detail.contexte>0?"+":""}${r.detail.contexte}</b></div></div>`:""}
+    </div>
+
+    <div class="bloc">
+      <h4>Ce que cela veut dire pour toi</h4>
+      <ul class="liste">${r.raisons.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+    </div>
+
+    <div class="bloc">
+      <h4>Où travailler après</h4>
+      <ul class="liste">${r.fil.deb.map(d=>`<li>${esc(d)}</li>`).join("")}</ul>
+    </div>
+
+    <div class="bloc">
+      <h4>Où préparer cette filière</h4>
+      ${r.etabs.map(e=>`<div class="etab">
+        <div class="n">${esc(e.n)}</div>
+        <div class="m">${esc(e.r)} · ${e.t==="pub"?"Public":e.t==="dist"?"Public, à distance":"Privé agréé MESRI"} · ${esc(e.f)}</div>
+      </div>`).join("")}
+      <small style="margin-top:8px">Frais donnés à titre indicatif. À confirmer auprès de chaque établissement.</small>
+    </div>
+
+    <div class="duo noprint">
+      <button class="btn sec" data-go="resultats">Retour à la liste</button>
+      <button class="btn" id="choisir">Mettre dans mes vœux</button>
+    </div>
+  </div>`;
+}
+
+/* --- Passeport --- */
+let voeux = [];
+function vPasseport(){
+  const liste = voeux.length ? voeux : resultats.slice(0,5).map(r=>r.fil.id);
+  const choisis = liste.map(id=>resultats.find(r=>r.fil.id===id)).filter(Boolean);
+  const d = new Date().toLocaleDateString("fr-FR");
+  return `<div class="pad">
+    <h2>Mon passeport d'orientation</h2>
+    <small>Montre-le à tes parents, à ton professeur principal ou au conseiller d'orientation de ton lycée.</small>
+
+    <div class="passeport" style="margin-top:20px">
+      <div class="ent">
+        <div style="font-family:Georgia,serif;font-size:19px">Passeport d'orientation</div>
+        <small>SUNU-ORIENT · établi le ${d}</small>
+      </div>
+      <div class="ligne"><span>Série du bac</span><b>${esc(PROFIL.serie)}</b></div>
+      <div class="ligne"><span>Moyenne</span><b>${PROFIL.moyenne.toFixed(2)}/20 — ${niveauDepuisMoyenne(PROFIL.moyenne)}</b></div>
+      <div class="ligne"><span>Région</span><b>${esc(PROFIL.region)}</b></div>
+      <div class="ligne"><span>Matières fortes</span><b>${PROFIL.matieres.map(m=>MATIERES.find(x=>x.id===m).l).join(", ")||"—"}</b></div>
+      <div class="ligne"><span>Centres d'intérêt</span><b>${PROFIL.interets.map(i=>INTERETS.find(x=>x.id===i).l).join(", ")}</b></div>
+      <div class="ligne"><span>Contraintes</span><b>${PROFIL.budget==="public"?"Public uniquement":"Privé envisageable"} ·
+        ${PROFIL.mobilite==="region"?"Rester en région":"Mobile"}</b></div>
+    </div>
+
+    <h3 style="margin:24px 0 10px">${voeux.length?"Mes vœux":"Mes 5 filières les mieux notées"}</h3>
+    ${choisis.map((r,i)=>`
+      <div class="etab">
+        <div class="n">${i+1}. ${esc(r.fil.nom)} <span style="color:var(--vert)">— ${r.total}/100</span></div>
+        <div class="m">${esc(r.fil.dom)} · ${esc(r.etabs[0].n)}${r.etabs.length>1?" et "+(r.etabs.length-1)+" autre(s)":""}</div>
+      </div>`).join("")}
+
+    <div class="duo noprint">
+      <button class="btn sec" data-go="resultats">Retour</button>
+      <button class="btn" id="imprimer">Imprimer / PDF</button>
+    </div>
+    <div class="avert">Ce passeport est un document d'aide à la décision.
+    L'inscription officielle se fait sur Campusen.</div>
+  </div>`;
+}
+
+/* --- Mode USSD --- */
+let ussdEtape = 0, ussdProfil = {};
+function ecranUssd(){
+  const t = [
+`*246# SUNU-ORIENT
+Bienvenue.
+
+1. Trouver ma filiere
+2. Mes resultats
+3. Aide
+
+Repondre 1, 2 ou 3`,
+`Ta serie du bac :
+
+1. S1   2. S2
+3. S3   4. STEG
+5. L1   6. L2
+7. Autre serie`,
+`Ta moyenne au bac ?
+
+Ecris-la sans virgule.
+Exemple : 1245 pour 12,45`,
+`Ce qui t'interesse
+le plus :
+
+1. Sante
+2. Gestion, chiffres
+3. Informatique
+4. Droit
+5. Agriculture
+6. Enseigner`,
+`Ta region :
+
+1. Dakar  2. Thies
+3. St-Louis 4. Diourbel
+5. Kaolack 6. Ziguinchor
+7. Autre`,
+`Analyse en cours...
+
+Tes 3 filieres :
+
+1. ${ussdProfil.f1||"—"}
+2. ${ussdProfil.f2||"—"}
+3. ${ussdProfil.f3||"—"}
+
+Un SMS avec le detail
+et les etablissements
+t'a ete envoye.
+
+Repondre 0 pour finir`];
+  return t[Math.min(ussdEtape,t.length-1)];
+}
+function vUssd(){
+  return `<div class="pad">
+    <h2>Sans internet, sans smartphone</h2>
+    <small>Le même service au composeur du téléphone, sur n'importe quel appareil, y compris
+    un téléphone à touches. Voici comment cela se présenterait.</small>
+    <div class="ecran-ussd" style="margin-top:18px">${esc(ecranUssd())}</div>
+    <div class="ussd-in">
+      <input id="ussdIn" type="text" inputmode="numeric" placeholder="Ta réponse" aria-label="Réponse USSD">
+      <button class="btn mini" id="ussdOk">Envoyer</button>
+    </div>
+    <div class="aide"><small>Ce canal demande une convention avec l'ARTP et les opérateurs
+    (Orange, Free, Expresso) pour réserver le code court et rendre la session gratuite pour l'élève.</small></div>
+    <div class="duo"><button class="btn sec" data-go="accueil">Retour à l'accueil</button></div>
+  </div>`;
+}
+
+/* ---------- 6. Interactions ---------- */
+
+function brancher(){
+  app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>aller(b.dataset.go));
+
+  const demo = document.getElementById("demo");
+  if(demo) demo.onclick = ()=>{
+    Object.assign(PROFIL,{serie:"STEG",moyenne:12.4,region:"Dakar",
+      matieres:["compta","eco"],interets:["chiffre","commerce"],
+      budget:"public",mobilite:"partout",distance:"non"});
+    resultats = classer(PROFIL); voeux=[]; aller("resultats");
+  };
+
+  /* Étape 1 */
+  const serie = document.getElementById("serie"), moy = document.getElementById("moy");
+  if(serie){
+    const maj = ()=>{
+      const m = parseFloat(moy.value);
+      const ok = serie.value && m>=8 && m<=20;
+      document.getElementById("suite").disabled = !ok;
+      document.getElementById("mention").textContent =
+        (m>=8&&m<=20) ? "Mention estimée : "+niveauDepuisMoyenne(m) : "";
+      if(ok){ PROFIL.serie=serie.value; PROFIL.moyenne=m; PROFIL.mention=niveauDepuisMoyenne(m); }
+    };
+    serie.onchange=maj; moy.oninput=maj; maj();
+    document.getElementById("suite").onclick=()=>aller("matieres");
+  }
+
+  /* Étape 2 */
+  const cm = document.getElementById("chipsM");
+  if(cm){
+    cm.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{
+      const id=c.dataset.m, on=PROFIL.matieres.includes(id);
+      if(on) PROFIL.matieres=PROFIL.matieres.filter(x=>x!==id);
+      else if(PROFIL.matieres.length<3) PROFIL.matieres.push(id);
+      cm.querySelectorAll(".chip").forEach(x=>{
+        const sel=PROFIL.matieres.includes(x.dataset.m);
+        x.setAttribute("aria-pressed",sel);
+        x.disabled = !sel && PROFIL.matieres.length>=3;
+      });
+    });
+    cm.querySelectorAll(".chip").forEach(x=>{
+      x.disabled = !PROFIL.matieres.includes(x.dataset.m) && PROFIL.matieres.length>=3;});
+    document.getElementById("suite").onclick=()=>aller("interets");
+  }
+
+  /* Étape 3 */
+  const ci = document.getElementById("chipsI");
+  if(ci){
+    const maj=()=>{document.getElementById("suite").disabled = PROFIL.interets.length<1;};
+    ci.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{
+      const id=c.dataset.i, on=PROFIL.interets.includes(id);
+      if(on) PROFIL.interets=PROFIL.interets.filter(x=>x!==id);
+      else if(PROFIL.interets.length<4) PROFIL.interets.push(id);
+      ci.querySelectorAll(".chip").forEach(x=>{
+        const sel=PROFIL.interets.includes(x.dataset.i);
+        x.setAttribute("aria-pressed",sel);
+        x.disabled = !sel && PROFIL.interets.length>=4;
+      });
+      maj();
+    });
+    maj();
+    document.getElementById("suite").onclick=()=>aller("situation");
+  }
+
+  /* Étape 4 */
+  const reg = document.getElementById("region");
+  if(reg){
+    const maj=()=>{document.getElementById("suite").disabled = !PROFIL.region;};
+    reg.onchange=()=>{PROFIL.region=reg.value;maj();};
+    app.querySelectorAll("[data-b]").forEach(b=>b.onclick=()=>{
+      PROFIL.budget=b.dataset.b;
+      app.querySelectorAll("[data-b]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.b===PROFIL.budget));});
+    app.querySelectorAll("[data-mob]").forEach(b=>b.onclick=()=>{
+      PROFIL.mobilite=b.dataset.mob;
+      app.querySelectorAll("[data-mob]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.mob===PROFIL.mobilite));});
+    app.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{
+      PROFIL.distance=b.dataset.d;
+      app.querySelectorAll("[data-d]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.d===PROFIL.distance));});
+    maj();
+    document.getElementById("suite").onclick=()=>{
+      resultats = classer(PROFIL); voeux=[]; historique=["accueil"]; aller("resultats");
+    };
+  }
+
+  /* Résultats */
+  app.querySelectorAll("[data-fil]").forEach(b=>b.onclick=()=>{
+    selection = resultats.find(r=>r.fil.id===b.dataset.fil); aller("detail");
+  });
+
+  /* Détail */
+  const ch = document.getElementById("choisir");
+  if(ch){
+    const dedans = voeux.includes(selection.fil.id);
+    ch.textContent = dedans ? "Retirer de mes vœux" : "Mettre dans mes vœux";
+    ch.onclick=()=>{
+      if(voeux.includes(selection.fil.id)) voeux=voeux.filter(v=>v!==selection.fil.id);
+      else voeux.push(selection.fil.id);
+      aller("passeport");
+    };
+  }
+
+  const imp = document.getElementById("imprimer");
+  if(imp) imp.onclick=()=>window.print();
+
+  /* USSD */
+  const uo = document.getElementById("ussdOk");
+  if(uo){
+    const env = ()=>{
+      const v = document.getElementById("ussdIn").value.trim();
+      if(!v) return;
+      if(ussdEtape===0 && v!=="1"){ ussdEtape=0; }
+      else if(ussdEtape===5 || v==="0"){ ussdEtape=0; ussdProfil={}; }
+      else {
+        if(ussdEtape===1) ussdProfil.serie = {1:"S1",2:"S2",3:"S3",4:"STEG",5:"L1",6:"L2"}[v]||"S2";
+        if(ussdEtape===2) ussdProfil.moyenne = Math.min(20,Math.max(8,(parseInt(v,10)||1200)/100));
+        if(ussdEtape===3) ussdProfil.inter = {1:"sante",2:"chiffre",3:"info",4:"droit",5:"agri",6:"ensei"}[v]||"chiffre";
+        if(ussdEtape===4){
+          ussdProfil.region = {1:"Dakar",2:"Thiès",3:"Saint-Louis",4:"Diourbel",5:"Kaolack",6:"Ziguinchor"}[v]||"Dakar";
+          const p = {serie:ussdProfil.serie,moyenne:ussdProfil.moyenne,region:ussdProfil.region,
+            interets:[ussdProfil.inter],matieres:[],budget:"public",mobilite:"partout",distance:"oui"};
+          const res = classer(p);
+          ussdProfil.f1 = res[0]?res[0].fil.nom.slice(0,26):"—";
+          ussdProfil.f2 = res[1]?res[1].fil.nom.slice(0,26):"—";
+          ussdProfil.f3 = res[2]?res[2].fil.nom.slice(0,26):"—";
+        }
+        ussdEtape++;
+      }
+      rendu();
+      const n = document.getElementById("ussdIn"); if(n) n.focus();
+    };
+    uo.onclick = env;
+    document.getElementById("ussdIn").onkeydown = e=>{ if(e.key==="Enter") env(); };
+  }
+}
+
+window.addEventListener("online", ()=>{document.getElementById("etat").textContent="Connecté"});
+window.addEventListener("offline",()=>{document.getElementById("etat").textContent="Hors ligne · prêt"});
+rendu();
+</script>
+
+</html>
