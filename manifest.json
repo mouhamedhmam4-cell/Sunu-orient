@@ -1,0 +1,18 @@
+{
+  "name": "SUNU-ORIENT — Mon orientation après le bac",
+  "short_name": "SUNU-ORIENT",
+  "description": "Trouve la filière universitaire qui te correspond après le bac, partout au Sénégal.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FDFAF4",
+  "theme_color": "#14512F",
+  "lang": "fr",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
